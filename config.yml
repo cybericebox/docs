@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cybericebox
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+  namespace: cybericebox
+data:
+  DOMAIN: cybericebox.com # domain of the paltform
+  RECAPTCHA_API_KEY: AIzaSyB-dLLvDOpGN6ZthBOyAI5frLhUHK7KeTg
+  RECAPTCHA_KEY: 6Lf-6sApAAAAAPMyey1bvnCOmoumXbmKev5IcN7M
+  RECAPTCHA_PROJECT: cyber-ice-box-platform
+  JWT_TOKEN_SIGNATURE: "123123123" # for signing JWT tokens
+  GOOGLE_CLIENT_ID: ...
+  GOOGLE_SECRET: ...
+  EMAIL_HOST: smtp.gmail.com
+  EMAIL_USERNAME: noreply.cybericebox@gmail.com
+  EMAIL_PASSWORD: nilp aasl qkgi lgir
+  EMAIL_SENDER_NAME: "Cyber ICE Box Platform"
+  EMAIL_SENDER_EMAIL: noreply@cybericebox.com
+  EMAIL_REPLY_TO_NAME: "Support Cyber ICE Box Platform"
+  EMAIL_REPLY_TO_EMAIL: support@cybericebox.com
+  POSTGRES_HOSTNAME: ep-wandering-morning-a27v9a8l.eu-central-1.aws.neon.tech
+  POSTGRES_USER: cybericebox_owner
+  POSTGRES_PASSWORD: uhWZoA91IzxV
+  POSTGRES_DB: cybericebox_test
+  POSTGRES_SSL_MODE: require
+  WG_GRPC_AUTH: "123"
+  WG_GRPC_SIGN: "124"
+  VPN_ENDPOINT: 192.168.2.58:51820
+  VPN_PUBLIC_KEY: KCgBWFRr+64V1mOwcx9h/+xz+DghQSptk9UtiwTbUmA=
+  VPN_PRIVATE_KEY: bU2GfPUskNlh9RxeVI690S+XngW/hehTv4Gry2JJzmo=
+  AGENT_GRPC_AUTH: "123"
+  AGENT_GRPC_SIGN: "123"
+  LAB_CIDR: 128.0.0.0/8
+
+
