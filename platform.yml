@@ -1,0 +1,393 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cybericebox
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard
+  namespace: cybericebox
+  labels:
+    app: wireguard
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      name: wireguard
+      namespace: cybericebox
+      labels:
+        app: wireguard
+    spec:
+      containers:
+        - name: wireguard
+          image: cybericebox/wireguard:v0.91
+          envFrom:
+            - configMapRef:
+                name: configmap
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+            privileged: true
+          volumeMounts:
+            - name: host-volumes
+              mountPath: /lib/modules
+          ports:
+            - containerPort: 51820
+              protocol:  UDP
+            - containerPort: 5454
+              protocol:  TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /ready
+            initialDelaySeconds: 2
+            periodSeconds: 20
+            successThreshold: 1
+      volumes:
+        - name: host-volumes
+          hostPath:
+            path: /lib/modules
+            type: Directory
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wireguard-service
+  namespace: cybericebox
+spec:
+  type: NodePort
+  ports:
+    - port: 51820
+      protocol: UDP
+      name: wireguard
+      targetPort: 51820
+      nodePort: 31820
+  selector:
+    app: wireguard
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wireguard-grpc-service
+  namespace: cybericebox
+spec:
+  ports:
+    - port: 5454
+      protocol: TCP
+      targetPort: 5454
+  selector:
+    app: wireguard
+---
+# agent
+apiVersion: v1
+automountServiceAccountToken: true
+kind: ServiceAccount
+metadata:
+  name: leaderelection-sa
+  namespace: cybericebox
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: leaderelection-role
+  namespace: cybericebox
+rules:
+  - apiGroups: [ "", "core", "apps", "projectcalico.org" ]
+    resources:
+      - '*'
+    verbs:
+      - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: leaderelection-rolebinding
+  namespace: cybericebox
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: leaderelection-role
+subjects:
+  - kind: ServiceAccount
+    name: leaderelection-sa
+    namespace: cybericebox
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent
+  namespace: cybericebox
+  labels:
+    app: agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent
+  template:
+    metadata:
+      name: agent
+      namespace: cybericebox
+      labels:
+        app: agent
+    spec:
+      automountServiceAccountToken: true
+      serviceAccountName: leaderelection-sa
+      containers:
+        - name: agent
+          image: cybericebox/agent:v0.9
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: configmap
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: agent-service
+  namespace: cybericebox
+spec:
+  ports:
+    - port: 5454
+      protocol: TCP
+      targetPort: 5454
+  selector:
+    app: agent
+---
+# daemon
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: daemon
+  namespace: cybericebox
+  labels:
+    app: daemon
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: daemon
+  template:
+    metadata:
+      name: daemon
+      namespace: cybericebox
+      labels:
+        app: daemon
+    spec:
+      containers:
+        - name: daemon
+          image: cybericebox/daemon:v0.92
+          envFrom:
+            - configMapRef:
+                name: configmap
+          ports:
+            - containerPort: 80
+              protocol:  TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: daemon-service
+  namespace: cybericebox
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      name: daemon
+      targetPort: 80
+      nodePort: 31080
+---
+# main frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-frontend
+  namespace: cybericebox
+  labels:
+    app: main-frontend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: main-frontend
+  template:
+    metadata:
+      name: main-frontend
+      namespace: cybericebox
+      labels:
+        app: main-frontend
+    spec:
+      containers:
+        - name: main-frontend
+          image: cybericebox/main-frontend:v0.9
+          envFrom:
+            - configMapRef:
+                name: configmap
+          ports:
+            - containerPort: 3000
+              protocol:  TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: main-frontend-service
+  namespace: cybericebox
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: main-frontend
+---
+# admin frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-frontend
+  namespace: cybericebox
+  labels:
+    app: admin-frontend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: admin-frontend
+  template:
+    metadata:
+      name: admin-frontend
+      namespace: cybericebox
+      labels:
+        app: admin-frontend
+    spec:
+      containers:
+        - name: admin-frontend
+          image: cybericebox/admin-frontend:v0.92
+          envFrom:
+            - configMapRef:
+                name: configmap
+          ports:
+            - containerPort: 3000
+              protocol:  TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: admin-frontend-service
+  namespace: cybericebox
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: admin-frontend
+---
+# event frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-frontend
+  namespace: cybericebox
+  labels:
+    app: event-frontend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: event-frontend
+  template:
+    metadata:
+      name: event-frontend
+      namespace: cybericebox
+      labels:
+        app: event-frontend
+    spec:
+      containers:
+        - name: event-frontend
+          image: cybericebox/event-frontend:v0.9
+          envFrom:
+            - configMapRef:
+                name: configmap
+          ports:
+            - containerPort: 3000
+              protocol:  TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: event-frontend-service
+  namespace: cybericebox
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: event-frontend
+---
+
