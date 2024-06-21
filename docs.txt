@@ -4,8 +4,10 @@ sudo k0s install controller --single
 
 sudo k0s kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
 
+curl -sSLf https://github.com/cybericebox/docs/blob/72dac1c100b7fc66dea9c16258735f14308f313b/config.yml
+
 sudo k0s kubectl apply -f config.yml
 
-sudo k0s kubectl apply -f platform.yml
+sudo k0s kubectl apply -f https://github.com/cybericebox/docs/blob/72dac1c100b7fc66dea9c16258735f14308f313b/platform.yml
 
   
