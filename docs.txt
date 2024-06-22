@@ -8,7 +8,7 @@ sudo k0s status
 
 sudo k0s kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
 
-curl -sSLf https://github.com/cybericebox/docs/blob/72dac1c100b7fc66dea9c16258735f14308f313b/config.yml
+curl -sSLf https://raw.githubusercontent.com/cybericebox/docs/main/config.yml
 
 sudo k0s kubectl apply -f config.yml
 
