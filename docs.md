@@ -6,7 +6,7 @@
        curl -sSLf https://get.k0s.sh | sudo sh
 2. Команда встановлює **k0s** де **controller** означає, що встановлюється контролерний вузол (головний компонент кластера), а **--single** вказує на те, що буде створені кластери та робочі вузли, які будуть функціонувати на одному сервері.
 
-       sudo k0s install controller --single
+       sudo k0s install controller --enable-worker
 3. Команда запускає створений кластер **Kubernetes**, під керуваням **k0s**.
 
        sudo k0s start
