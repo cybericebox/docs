@@ -31,7 +31,7 @@
        sudo k0s kubectl apply -f https://raw.githubusercontent.com/cybericebox/docs/main/platform.yml
 9. Команда перевіряє готовність інфрастуктури платформи. У разі готовності всі компоненти матимуть статус "Running", як це показано нище.
 
-        sudo k0s kubectl get all -n cybericebox
+       sudo k0s kubectl get all -n cybericebox
 
      ![Приклад стану системи](https://github.com/cybericebox/docs/assets/49611889/2e69cd22-867f-4a64-82d8-50bfdd87f768)
 10. Команда налаштовує порт, який надає можливість користувачам отримати доступ до розгорнутої платформи з мережі Інтернет.
