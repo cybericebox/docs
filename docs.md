@@ -18,7 +18,7 @@
        sudo k0s kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
 6. Команда завантажує файл **config.yml** з репозиторію на **GitHub** за вказаною **URL-адресою**. Певні параметри цього файлу необхідно змінити відповідно дo [підготовчого етапу.](https://github.com/cybericebox/docs/blob/main/README.md)!
    
-       curl -sSLf https://raw.githubusercontent.com/cybericebox/docs/main/config.yml
+       curl https://raw.githubusercontent.com/cybericebox/docs/main/config.yml -O
 7. Команда запускає інструмент **k0s**, щоб застосовати конфігурацію з файлу **config.yml** до **Kubernetes-кластера**, який управляється за допомогою **k0s**, розгортання або оновлення ресурсів, визначених у цьому файлі
 
        sudo k0s kubectl apply -f config.yml
