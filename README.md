@@ -1,5 +1,4 @@
-# docs
-## Основні рекомендації, щодо розгортання та налаштування  Cyber ICE Box Platform
+# Основні рекомендації, щодо розгортання та налаштування  Cyber ICE Box Platform
 
 ### Підготовка до розгортання Cyber ICE Box Platform
 
@@ -24,16 +23,19 @@ Cyber ICE Box Platform не може повноцінно функціонува
 
 ##### III. Налаштування reCAPTCHA від Google
 
-Для забезпечення безпеки та захисту від автоматизованих атак на платформі обов’язковою умовою є налаштування [reCAPTCHA від Google](https://www.google.com/recaptcha/about/). Це допоможе запобігти несанкціонованому доступу та забезпечить надійність вашої авторизаційної форми. Налаштування та впровадження [reCAPTCHA](https://www.google.com/recaptcha/about/) для Cyber ICE Box Platform відбувається на офіційному сайті [reCAPTCHA](https://www.google.com/recaptcha/about/). Впровадження цього методу захисту відкриває можливість авторизація користувачів на платформі за допомогою авторизаційної  форми Google, що значно пришвидшує процес реєстрації облікових записів. Необхідні кроки щодо створення та налаштування сервісу наведено нижче.
-* Створення проекту в Google Cloud Console:
-    * Перейдіть до [Google Cloud Console.](https://console.cloud.google.com/)
-    * Створіть новий проект або виберіть існуючий.
-* Активізація reCAPTCHA Enterprise:
-    * У розділі "APIs & Services" активуйте reCAPTCHA Enterprise.
-    * Згенеруйте публічний та секретний ключі для [config.yml.](https://github.com/cybericebox/docs/blob/main/config.yml)
-* Інтеграція reCAPTCHA на платформу:
-    * Вставте публічний ключ та секретний ключ у файл [config.yml](https://github.com/cybericebox/docs/blob/main/config.yml), де ви хочете використовувати reCAPTCHA.
-    * Перевірте відповіді користувачів за допомогою API Google reCAPTCHA.      
+Для забезпечення безпеки та захисту від автоматизованих атак на платформі обов’язковою умовою є налаштування [reCAPTCHA від Google](https://www.google.com/recaptcha/about/). Це допоможе запобігти несанкціонованому доступу та забезпечить надійність вашої авторизаційної форми. Налаштування та впровадження [reCAPTCHA](https://www.google.com/recaptcha/about/) для Cyber ICE Box Platform відбувається на офіційному сайті [reCAPTCHA](https://www.google.com/recaptcha/about/). Необхідні кроки щодо створення та налаштування сервісів наведено нижче.
 
+* Активація reCAPTCHA:
+   * Перейдіть до [Google reСAPTCHA.](https://www.google.com/recaptcha/admin)
+   * Згенеруйте публічний та секретний ключі
+   * Використайте створені ключі для [config.yml.](https://github.com/cybericebox/docs/blob/main/config.yml)
+     
+* Активація авторизації за допомогою Google:
+  * Перейдіть до [Google Cloud Console.](https://console.cloud.google.com/)
+  * Створіть новий проєкт або виберіть існуючий.
+  * У розділі "APIs & Services" згенеруйте індетифікатор клієнта OAuth2.0 та секретний ключ.
+      * Необхідною умовою для створення індетифікатора є заповнення параметру "Authorized redirect URIs".  
+    Використайте цей шаблон: **https://<Кореневий домен платформи>/api/auth/google/callback**
+  * Використайте створені ідентифікатор та секретний ключ для [config.yml.](https://github.com/cybericebox/docs/blob/main/config.yml)
 
-**Лише виконавши умови з попередніх етапів, вам необхідно перейти до кроків безпосереднього розгортання платформи на фізичному сервері. Консольні команди та кроки, які необхідно виконати для розгортання платформи наведено у файлі [docs.txt.](https://github.com/cybericebox/docs/blob/main/docs.txt)**
+**Лише виконавши умови з попередніх етапів, вам необхідно перейти до кроків безпосереднього [розгортання платформи](https://github.com/cybericebox/docs/blob/main/docs.md).**
