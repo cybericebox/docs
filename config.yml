@@ -33,3 +33,12 @@ data:
   AGENT_GRPC_AUTH_KEY: "randomkey"
   AGENT_GRPC_SIGN_KEY: "randomkey"
   LABS_CIDR: 128.0.0.0/8
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: subnet-address
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.10.0/32 # address of internal subnet
