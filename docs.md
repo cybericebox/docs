@@ -20,7 +20,7 @@
    * Команда № 2 
    
          sudo k0s kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/custom-resources.yaml
-6. Команда налаштовує доступ до ресурсів кластеру з зовнішньої мережі
+6. Команда налаштовує доступ до ресурсів кластеру з зовнішньої мережі.
 
        sudo k0s kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml
 7. Команда завантажує файл конфігурації платформи **config.yml**. Певні параметри цього файлу необхідно змінити відповідно дo [підготовчого етапу](https://github.com/cybericebox/docs/blob/main/README.md)!
