@@ -9,10 +9,10 @@ metadata:
   name: config
   namespace: cybericebox
 data:
-  DOMAIN: cybericebox.com # domain of the platform
-  RECAPTCHA_KEY: ...
-  RECAPTCHA_SECRET: ...
-  JWT_TOKEN_SIGNATURE: "random" # for signing JWT tokens
+  DOMAIN: cybericebox.com # кореневий домен платформи
+  RECAPTCHA_KEY: ... # ключ сайту
+  RECAPTCHA_SECRET: ... 
+  JWT_TOKEN_SIGNATURE: "random" # ключ підпису токенів аутентифікації
   GOOGLE_CLIENT_ID: ...
   GOOGLE_SECRET: ...
   EMAIL_HOST: smtp.gmail.com
@@ -27,9 +27,9 @@ data:
   POSTGRES_PASSWORD: "password"
   POSTGRES_DB: "database"
   POSTGRES_SSL_MODE: "disable"
-  WG_GRPC_AUTH_KEY: "randomkey"
+  WG_GRPC_AUTH_KEY: "randomkey" 
   WG_GRPC_SIGN_KEY: "randomkey"
-  VPN_ENDPOINT: vpn.cybericebox.com:51820
+  VPN_ENDPOINT: <Зовнішня IP-адреса платформи>:51820
   AGENT_GRPC_AUTH_KEY: "randomkey"
   AGENT_GRPC_SIGN_KEY: "randomkey"
   LABS_CIDR: 128.0.0.0/8
@@ -41,4 +41,4 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 192.168.10.0/32 # address of internal subnet
+  - 192.168.10.0/32 # внутрішня адреса робочого вузла з маскою підмережі /32
