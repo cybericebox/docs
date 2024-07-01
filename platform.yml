@@ -192,13 +192,17 @@ spec:
     spec:
       containers:
         - name: daemon
-          image: cybericebox/daemon:v0.92
+          image: cybericebox/daemon:v1.0
           envFrom:
             - configMapRef:
-                name: configmap
+                name: config
           ports:
             - containerPort: 80
-              protocol:  TCP
+              protocol: TCP
+            - containerPort: 443
+              protocol: TCP
+            - containerPort: 51820
+              protocol: UDP
           resources:
             requests:
               memory: "64Mi"
@@ -210,15 +214,20 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: daemon-service
+  name: daemon
   namespace: cybericebox
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 80
-      name: daemon
+      name: http
       targetPort: 80
-      nodePort: 31080
+    - port: 443
+      name: https
+      targetPort: 443
+    - port: 51820
+      name: vpn
+      targetPort: 51820
 ---
 # main frontend
 apiVersion: apps/v1
