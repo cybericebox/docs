@@ -247,10 +247,10 @@ spec:
     spec:
       containers:
         - name: main-frontend
-          image: cybericebox/main-frontend:v0.9
+          image: cybericebox/main-frontend:v1.0
           envFrom:
             - configMapRef:
-                name: configmap
+                name: config
           ports:
             - containerPort: 3000
               protocol:  TCP
@@ -265,7 +265,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: main-frontend-service
+  name: main-frontend
   namespace: cybericebox
 spec:
   ports:
@@ -301,10 +301,10 @@ spec:
     spec:
       containers:
         - name: admin-frontend
-          image: cybericebox/admin-frontend:v0.92
+          image: cybericebox/admin-frontend:v1.0
           envFrom:
             - configMapRef:
-                name: configmap
+                name: config
           ports:
             - containerPort: 3000
               protocol:  TCP
@@ -319,7 +319,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: admin-frontend-service
+  name: admin-frontend
   namespace: cybericebox
 spec:
   ports:
@@ -355,10 +355,10 @@ spec:
     spec:
       containers:
         - name: event-frontend
-          image: cybericebox/event-frontend:v0.9
+          image: cybericebox/event-frontend:v1.0
           envFrom:
             - configMapRef:
-                name: configmap
+                name: config
           ports:
             - containerPort: 3000
               protocol:  TCP
@@ -373,7 +373,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: event-frontend-service
+  name: event-frontend
   namespace: cybericebox
 spec:
   ports:
