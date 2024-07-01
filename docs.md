@@ -20,23 +20,22 @@
    * Команда № 2 
    
          sudo k0s kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/custom-resources.yaml
-6. Команда завантажує файл конфігурації платформи **config.yml**. Певні параметри цього файлу необхідно змінити відповідно дo [підготовчого етапу](https://github.com/cybericebox/docs/blob/main/README.md)!
+6. Команда налаштовує доступ до ресурсів кластеру з зовнішньої мережі
+
+       sudo k0s kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.5/config/manifests/metallb-native.yaml
+7. Команда завантажує файл конфігурації платформи **config.yml**. Певні параметри цього файлу необхідно змінити відповідно дo [підготовчого етапу](https://github.com/cybericebox/docs/blob/main/README.md)!
    
        curl https://raw.githubusercontent.com/cybericebox/docs/main/config.yml -O
-7. Команда застосовує конфігурацію платформи з файлу **config.yml** до **Kubernetes-кластеру**.
+8. Команда застосовує конфігурацію платформи з файлу **config.yml** до **Kubernetes-кластеру**.
 
        sudo k0s kubectl apply -f config.yml
-8. Команда виконує розгортання інфрастриктури платформи **Kubernetes** з файлу **platform.yml**, використовуючи **kubectl**, що входить до складу **k0s**. Це означає, що **Kubernetes** об'єкти, визначені в **platform.yml**, будуть створені або оновлені в кластері.
+9. Команда виконує розгортання інфрастриктури платформи **Kubernetes** з файлу **platform.yml**, використовуючи **kubectl**, що входить до складу **k0s**. Це означає, що **Kubernetes** об'єкти, визначені в **platform.yml**, будуть створені або оновлені в кластері.
 
        sudo k0s kubectl apply -f https://raw.githubusercontent.com/cybericebox/docs/main/platform.yml
-9. Команда перевіряє готовність інфрастуктури платформи. У разі готовності всі компоненти матимуть статус "Running", як це показано нище.
+10. Команда перевіряє готовність інфрастуктури платформи. У разі готовності всі компоненти матимуть статус "Running", як це показано нище.
 
        sudo k0s kubectl get all -n cybericebox
 
      ![Приклад стану системи](https://github.com/cybericebox/docs/assets/49611889/2e69cd22-867f-4a64-82d8-50bfdd87f768)
-10. Команда налаштовує порт, який надає можливість користувачам отримати доступ до розгорнутої платформи з мережі Інтернет.
-
-        sudo iptables -t nat -A PREROUTING -i <Зовнішній мережний інтерфейс вузла> -p tcp -m tcp --dport 80 -j DNAT --to 127.0.0.1:31080
-
 11. **Після успішного розгортання платформи перейдіть до Адміністративної панелі за посиланням, наприклад: https://admin.cybericebox.com**.
 
