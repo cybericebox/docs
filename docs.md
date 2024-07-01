@@ -34,8 +34,7 @@
        sudo k0s kubectl apply -f https://raw.githubusercontent.com/cybericebox/docs/main/platform.yml
 10. Команда перевіряє готовність інфрастуктури платформи. У разі готовності всі компоненти матимуть статус "Running", як це показано нище.
 
-       sudo k0s kubectl get all -n cybericebox
-
+        sudo k0s kubectl get all -n cybericebox
      ![Приклад стану системи](https://github.com/cybericebox/docs/assets/49611889/2e69cd22-867f-4a64-82d8-50bfdd87f768)
 11. **Після успішного розгортання платформи перейдіть до Адміністративної панелі за посиланням, наприклад: https://admin.cybericebox.com**.
 
