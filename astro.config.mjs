@@ -10,7 +10,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: { uk: `Документація ${BRAND}`, en: `${BRAND} docs` },
-      description: `Documentation of the ${BRAND} platform and the Laboratory.`,
+      description: `Документація платформи ${BRAND} та лабораторії.`,
       logo: { src: './src/assets/crest.png', alt: BRAND },
       favicon: '/favicon.png',
       // Ukrainian is the main language (root, no prefix); English lives under /en/. The English release pages are the
