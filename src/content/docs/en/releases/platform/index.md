@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Platform releases
 description: Release notes of the platform, one page per release line.
 ---

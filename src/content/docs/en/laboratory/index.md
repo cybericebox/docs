@@ -1,4 +1,7 @@
 ---
+sidebar:
+  label: Overview
+  order: 1
 title: Laboratory overview
 description: What Laboratory is, what it does and how it is built.
 ---
@@ -46,5 +49,4 @@ one device, without entering its network) and a filtered **internet** path for o
 
 ## Where to go next
 
-- [Concepts](/en/laboratory/concepts/), [Install](/en/laboratory/install/), [Operate](/en/laboratory/operate/) and [API](/en/laboratory/api/) are not written yet.
-- [Laboratory release notes](/en/releases/laboratory/) are collected per release line.
+Installing and operating are for now described in the laboratory repository, in [DEPLOY.md](https://github.com/cybericebox/laboratory/blob/main/DEPLOY.md). These sections will appear here.

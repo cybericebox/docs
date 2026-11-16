@@ -1,0 +1,52 @@
+/* The look of the Cyber ICE Box sites on top of Starlight: brand colours, Geist, flat surfaces.
+   Values come from the project's design tokens (light is "paper", dark is «Сутінки»). */
+@font-face{font-family:"Geist";src:url("../fonts/Geist-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Geist Mono";src:url("../fonts/GeistMono-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
+
+:root{
+  --sl-font:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --sl-font-mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  /* no shadows anywhere */
+  --sl-shadow-sm:none;--sl-shadow-md:none;--sl-shadow-lg:none;
+
+  /* dark */
+  --sl-color-accent-low:#4A4858;
+  --sl-color-accent:#E6E6EE;
+  --sl-color-accent-high:#F5F5F9;
+  --sl-color-white:#EEEDF6;
+  --sl-color-gray-1:#EEEDF6;
+  --sl-color-gray-2:#DAD9E5;
+  --sl-color-gray-3:#C8C6D6;
+  --sl-color-gray-4:#9896A6;
+  --sl-color-gray-5:#53515F;
+  --sl-color-gray-6:#413F4E;
+  --sl-color-black:#383645;
+  --sl-color-text-invert:#211A52;
+}
+:root[data-theme="light"]{
+  --sl-color-accent-low:#EEEDF3;
+  --sl-color-accent:#211A52;
+  --sl-color-accent-high:#16152B;
+  --sl-color-white:#16152B;
+  --sl-color-gray-1:#16152B;
+  --sl-color-gray-2:#2C2B42;
+  --sl-color-gray-3:#5A5A70;
+  --sl-color-gray-4:#66667A;
+  --sl-color-gray-5:#82839A;
+  --sl-color-gray-6:#E4E4EC;
+  --sl-color-gray-7:#F7F7F9;
+  --sl-color-black:#FFFFFF;
+  --sl-color-text-invert:#FFFFFF;
+}
+
+h1,h2,h3,h4{letter-spacing:-.01em;font-weight:600}
+.site-title{color:var(--sl-color-white);font-weight:600}
+/* buttons: the product's radius, not a pill */
+.sl-link-button{border-radius:6px}
+/* the language picker shows its whole label */
+starlight-lang-select select,starlight-theme-select select{width:auto;min-width:9.5em;text-overflow:clip}
+/* cards: one neutral look, no per-card colours */
+.card{--sl-card-border:var(--sl-color-gray-5);--sl-card-bg:var(--sl-color-accent-low);border-radius:8px;border-color:var(--sl-color-gray-6)}
+:root:not([data-theme="light"]) .card{border-color:var(--sl-color-gray-5)}
+.card .icon{border-radius:6px}
+.sl-link-card{border-radius:8px;box-shadow:none}

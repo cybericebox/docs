@@ -3,7 +3,7 @@ title: "Cyber\u00A0ICE\u00A0Box documentation"
 description: "Documentation of the Cyber\u00A0ICE\u00A0Box platform and the Laboratory."
 template: splash
 hero:
-  tagline: Two independent products, each with its own documentation.
+  tagline: A cyber range for training and CTF competitions. The code is open, so you can run it on your own servers.
   actions:
     - text: Laboratory
       link: /en/laboratory/
@@ -13,3 +13,28 @@ hero:
       icon: right-arrow
       variant: minimal
 ---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Two products
+
+<CardGrid>
+  <Card title="Laboratory" icon="puzzle">
+    Isolated training networks on Kubernetes: devices, switches, VPN, browser access, filtered internet and automatic
+    checks. It works on its own: any platform can drive it through one API.
+  </Card>
+  <Card title="Platform" icon="laptop">
+    Events, tasks, the catalog, the scoreboard and the organizer's panel. It runs on top of the laboratory.
+  </Card>
+</CardGrid>
+
+## What is written so far
+
+The documentation is being filled in. The overviews of both products are ready.
+
+<CardGrid>
+  <LinkCard title="Laboratory overview" description="What it does, how it is built and the three ways in." href="/en/laboratory/" />
+  <LinkCard title="Platform overview" description="What the platform gives you and what it consists of." href="/en/platform/" />
+  <LinkCard title="Installing the laboratory" description="For now in the laboratory repository: the DEPLOY.md file." href="https://github.com/cybericebox/laboratory/blob/main/DEPLOY.md" />
+  <LinkCard title="Code" description="All repositories of the project on GitHub." href="https://github.com/cybericebox" />
+</CardGrid>
