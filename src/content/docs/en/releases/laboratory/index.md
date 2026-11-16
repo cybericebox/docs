@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Laboratory releases
 description: Release notes of the Laboratory, one page per release line.
 ---

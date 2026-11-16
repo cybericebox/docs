@@ -1,4 +1,7 @@
 ---
+sidebar:
+  label: Огляд
+  order: 1
 title: Огляд лабораторії
 description: Що таке лабораторія, що вона робить і як побудована.
 ---
@@ -47,5 +50,4 @@ Open vSwitch, за потреби між вузлами. Кожна команд
 
 ## Куди далі
 
-- [Концепції](/laboratory/concepts/), [Встановлення](/laboratory/install/), [Експлуатацію](/laboratory/operate/) та [API](/laboratory/api/) ще не написано.
-- [Примітки до випусків лабораторії](/releases/laboratory/) збирають за лініями випусків.
+Встановлення та експлуатація поки що описані в репозиторії лабораторії, у файлі [DEPLOY.md](https://github.com/cybericebox/laboratory/blob/main/DEPLOY.md) (англійською). Ці розділи з'являться тут.

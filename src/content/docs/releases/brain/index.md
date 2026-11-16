@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Випуски Brain
 description: Примітки до випусків Brain, одна сторінка на лінію випусків.
 sidebar:

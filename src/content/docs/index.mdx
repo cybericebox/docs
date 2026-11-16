@@ -1,9 +1,9 @@
 ---
-title: "Документація Cyber ICE Box"
-description: "Документація платформи Cyber ICE Box і лабораторії."
+title: "Документація Cyber\u00A0ICE\u00A0Box"
+description: "Документація платформи Cyber\u00A0ICE\u00A0Box і лабораторії."
 template: splash
 hero:
-  tagline: Два незалежні продукти, у кожного своя документація.
+  tagline: Кіберполігон для навчання і змагань CTF. Код відкритий, тож його можна розгорнути на власних серверах.
   actions:
     - text: Лабораторія
       link: /laboratory/
@@ -13,3 +13,28 @@ hero:
       icon: right-arrow
       variant: minimal
 ---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Два продукти
+
+<CardGrid>
+  <Card title="Лабораторія" icon="puzzle">
+    Ізольовані навчальні мережі в Kubernetes: пристрої, комутатори, VPN, доступ із браузера, фільтрований інтернет
+    і автоматичні перевірки. Працює окремо: нею може керувати будь-яка платформа через один API.
+  </Card>
+  <Card title="Платформа" icon="laptop">
+    Заходи, завдання, каталог, таблиця результатів і панель організатора. Працює поверх лабораторії.
+  </Card>
+</CardGrid>
+
+## Що вже описано
+
+Документація наповнюється. Зараз готові огляди обох продуктів.
+
+<CardGrid>
+  <LinkCard title="Огляд лабораторії" description="Що вона робить, як побудована і три шляхи всередину." href="/laboratory/" />
+  <LinkCard title="Огляд платформи" description="Що дає платформа і з яких частин складається." href="/platform/" />
+  <LinkCard title="Встановлення лабораторії" description="Поки що в репозиторії лабораторії: файл DEPLOY.md, англійською." href="https://github.com/cybericebox/laboratory/blob/main/DEPLOY.md" />
+  <LinkCard title="Код" description="Усі репозиторії проєкту на GitHub." href="https://github.com/cybericebox" />
+</CardGrid>
