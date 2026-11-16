@@ -1,7 +1,7 @@
 # Cyber&nbsp;ICE&nbsp;Box documentation
 
 Source of the public documentation site, published at <https://docs.cybericebox.com> from GitHub Pages. It is a
-[Starlight](https://starlight.astro.build) (Astro) project that builds to static files. The site is in English. Two
+[Starlight](https://starlight.astro.build) (Astro) project that builds to static files. The site is in two languages: Ukrainian (the main one, at the root) and English (under `/en/`). Two
 independent products have their own sections: the **Laboratory** and the **platform**, plus the release notes of each.
 
 ## Run locally
@@ -28,37 +28,60 @@ pinned by full commit SHA, with the version in a comment.
 
 ## Adding a page
 
-Pages are Markdown (or MDX) files under `src/content/docs/`; the path is the address. A page needs `title` (and a
-`description`) in its frontmatter. To show it in the navigation, add it to `sidebar` in `astro.config.mjs`.
+Pages are Markdown (or MDX) files. Every page exists in both languages, with the same path:
+
+| Language | Folder | Address |
+|---|---|---|
+| Ukrainian (default) | `src/content/docs/` | `/laboratory/concepts/` |
+| English | `src/content/docs/en/` | `/en/laboratory/concepts/` |
+
+A page needs `title` and `description` in its frontmatter. To show it in the navigation, add it to `sidebar` in
+`astro.config.mjs` (a slug without the language, a Ukrainian `label`, and `translations: { en: '...' }`). The language
+picker is in the header. Links inside a page start with the language folder of that page (`/en/...` in English pages).
 
 - Do not write text that is not true yet. A page that is not written says so in one sentence.
-- Write the brand as `Cyber&nbsp;ICE&nbsp;Box` in Markdown (non-breaking spaces), ` ` in strings of the config or
+- Ukrainian terms: event = «захід», task = «завдання», variant = «варіант», laboratory = «лабораторія», device = «пристрій»,
+  cookies = «файли cookie».
+- Write the brand as `Cyber&nbsp;ICE&nbsp;Box` in Markdown (non-breaking spaces), `\u00A0` in strings of the config or
   frontmatter. `check:releases` also fails on the name written with ordinary spaces.
-- A Ukrainian version can be added later: add the `uk` locale to `locales` in `astro.config.mjs` and put the
-  translated pages under `src/content/docs/uk/`, same paths as the English ones.
 
 ## Release pages
 
-One page per release line of a product: `src/content/docs/releases/<product>/<X.Y>.md`, where `<product>` is
-`laboratory`, `platform` or `brain`. Start from `templates/release-page.md`. The page is the single text of the line:
-`infrastructure/release/release_line.py` (`make release notes|promote|publish-notes`) cuts the release page of every
-repository from it, and `promote` refuses while a section is missing or empty.
+One page per release line of a product, in each language:
+
+- English: `src/content/docs/en/releases/<product>/<X.Y>.md`. **This is the source for the release tool.**
+- Ukrainian: `src/content/docs/releases/<product>/<X.Y>.md`, a translation with translated headings.
+
+`<product>` is `laboratory`, `platform` or `brain`. Start from `templates/en/release-page.md` and
+`templates/uk/release-page.md`. `infrastructure/release/release_line.py` (`make release notes|promote|publish-notes`)
+cuts the GitHub release page of every repository from the English page (those pages are English), and `promote`
+refuses while a section is missing or empty. The Ukrainian page stays on the site only.
 
 | Part | Rule |
 |---|---|
-| Frontmatter | `title`, and `slug: releases/<product>/<X.Y>` (without it the dot of `X.Y` is dropped from the address, and the link the tool writes would break) |
+| Frontmatter | `title`, and `slug`: `en/releases/<product>/<X.Y>` (English) or `releases/<product>/<X.Y>` (Ukrainian). Without it the dot of `X.Y` is dropped from the address, and the link the tool writes would break |
 | Introduction | The text before the first `## ` section |
-| `## Requires` | Platform only: what the line needs |
-| One `## ` section per repository | Platform: `Backend`, `ID`, `Platform panel`, `Task catalog`, `Event site`, `Landing`. Laboratory: `Laboratory`. Brain: `API`, `Brain`. The names are exact |
-| Unchanged repository | The body is exactly `No changes in this repository.` |
-| Other `## ` sections | `## Upgrade` and the like belong to no repository and stay on the site only |
+| Requires | Platform only: `## Requires` (Ukrainian: `## Вимоги`) |
+| One `## ` section per repository | Platform: `Backend`, `ID`, `Platform panel`, `Task catalog`, `Event site`, `Landing` (Ukrainian: `Бекенд`, `ID`, `Панель платформи`, `Каталог завдань`, `Сайт заходу`, `Лендінг`). Laboratory: `Laboratory` (`Лабораторія`). Brain: `API`, `Brain`. The English names are exact: the tool matches them |
+| Unchanged repository | The body is exactly `No changes in this repository.` (Ukrainian: `Без змін у цьому репозиторії.`) |
+| Other `## ` sections | `## Upgrade` (`## Оновлення`) and the like belong to no repository and stay on the site only |
+
+`npm run check:releases` checks the English pages against the sections the tool needs, checks the Ukrainian pages
+against the translated headings, requires every page in both languages, the same sections in the same order, and the
+same repositories marked unchanged.
 
 A patch release (`X.Y.1`) writes its fixes into the section of the repository that was fixed, in the page of the line.
 Use `###` for headings inside a section; a `## ` line inside a code block would still split the page, because the tool
 does not know about code blocks.
 
-The tool reads the pages from this directory: `--docs-dir <path to this repo>/src/content/docs` (its default,
-`../docs-frontend`, does not point at the pages).
+The tool reads the pages from the English folder and builds the link to the full notes from `--docs-url`:
+
+```sh
+python3 infrastructure/release/release_line.py notes --product platform --version 2.0 \
+  --docs-dir <path to this repo>/src/content/docs/en --docs-url https://docs.cybericebox.com/en
+```
+
+Its defaults (`../docs-frontend` and `https://docs.cybericebox.com`) point at neither; the English pages live under `/en/`.
 
 ## License
 
