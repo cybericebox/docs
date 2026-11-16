@@ -1,41 +1,88 @@
-# Основні рекомендації, щодо розгортання та налаштування  Cyber ICE Box Platform
+# Cyber&nbsp;ICE&nbsp;Box documentation
 
-### Підготовка до розгортання Cyber ICE Box Platform
+Source of the public documentation site, published at <https://docs.cybericebox.com> from GitHub Pages. It is a
+[Starlight](https://starlight.astro.build) (Astro) project that builds to static files. The site is in two languages: Ukrainian (the main one, at the root) and English (under `/en/`). Two
+independent products have their own sections: the **Laboratory** and the **platform**, plus the release notes of each.
 
-##### I. Мінімальні технічні вимоги для серверної інфраструктури
+## Run locally
 
-Для розгортання платформи необхідно провести попередню підготовку та відповідально віднестись до фізичної конфігурації вашого головного серверу, де буде розгорнуто Cyber ICE Box Platform. **Зауважимо**, що ядро платформи функціонує спираючись на технологію [k0s.0 v1.30.2](https://docs.k0sproject.io/v1.30.2+k0s.0/) , що являє собою порожній дистрибутив [Kubernetes](https://kubernetes.io/) з відкритим кодом, який налаштовано з усіма функціями, необхідними для створення кластера [Kubernetes](https://kubernetes.io/). Для роботи та коректного функціонування створеного кластеру необхідні мінімальні технічні вимоги, які наведені нижче. 
-* Процессор: 1-2 vCPU.
-* Оперативна пам’ять: DDR3 2Gb.
-* Жорсткий накопичувач: HDD  10Gb.
+Node 26 (see `.nvmrc`).
 
-Спеціально розроблена конфігураційна модель ядра Cyber ICE Box Platform, дозволяє адміністратору розгортати її майже на будь-якій операційній системі, яка підтримує створення кластера [Kubernetes](https://kubernetes.io/), однак тестування та робота дійсної моделі платформи, відбувається на архітектурі [x86-64](https://packages.debian.org/en/sid/binutils-x86-64-linux-gnu) дистрибутива Linux-подібної операційної системи. Зверніть увагу, що операційна система розгорнутих лабораторій повинна бути ідентичsq той, що використовується для розгортання Cyber ICE Box Platform. Для роботи та коректного функціонування операційної системи, серверна архітектура повинна відповідати мінімальним технічним вимогам, які наведено нижче. **Зауважимо**, що при збільшені запущених віртуальних машин збільшується об’єм необхідних фізичних ресурсів. Мінімальні вимоги прописані для одночасного запуску 10-ти лабораторій.
-* Процессор: 2-4 vCPU.
-* Оперативна пам’ять: DDR3 4Gb.
-* Жорсткий накопичувач: HDD  50Gb.
+```sh
+npm ci
+npm run dev              # http://localhost:4321
+npm run build            # static site in dist/; also checks every internal link
+npm run check:releases   # release pages have every required section, and none is empty
+```
 
+Dependencies are pinned to exact versions; update them on purpose, with the lockfile.
 
-##### II. Створення та призначення DNS запису та інші мережеві параметри
+## Branches
 
+- `develop`: pages for the coming version collect here. Open pull requests into `develop`.
+- `main`: what is published. A push to `main` builds and deploys the site (`.github/workflows/pages.yml`), so `main`
+  changes only when a product is promoted: `develop` is merged into it at that moment.
 
-Cyber ICE Box Platform не може повноцінно функціонувати без призначеного домену, який надає можливість адміністратору налаштувати доступ до платформи всім зацікавленим особам з мережі Інтернет. Також, необхідна наявність SSL/TLS сертифікатів для можливості налаштування безпечного з’єднання користувачів із центральним сервером платформи. Домен та дочірні під домени можливо використати будь-які, які є доступні адміністратору під час налаштування платформи. Також, необхідно виділити два порти для доступу до серверу (наприклад, порт 80 для HTTP або порт 443 для HTTPS), який забезпечує доступ користувачів до веб-додатку. Окрім цього, необхідно виділити порт для VPN тунелю, що використовується для створення захищеного з'єднання між користувачами та сервером. Тестування платформи та її робоче налаштування, відбувалось за допомогою провайдера хмарних послуг [Cloudflare](https://www.cloudflare.com/), який дозволяє досить зручно отримати всі необхідні сертифікати та доменний простір для роботи платформи. Використати параметри створеного домену необхідно для налаштування конфігураційних файлів [config.yml](https://github.com/cybericebox/docs/blob/main/config.yml) та [platform.yml](https://github.com/cybericebox/docs/blob/main/platform.yml).
+Pull requests run `.github/workflows/check.yml` (install, build, `check:releases`). Every action in the workflows is
+pinned by full commit SHA, with the version in a comment.
 
+## Adding a page
 
-##### III. Налаштування reCAPTCHA від Google
+Pages are Markdown (or MDX) files. Every page exists in both languages, with the same path:
 
-Для забезпечення безпеки та захисту від автоматизованих атак на платформі обов’язковою умовою є налаштування [reCAPTCHA від Google](https://www.google.com/recaptcha/about/). Це допоможе запобігти несанкціонованому доступу та забезпечить надійність вашої авторизаційної форми. Налаштування та впровадження [reCAPTCHA](https://www.google.com/recaptcha/about/) для Cyber ICE Box Platform відбувається на офіційному сайті [reCAPTCHA](https://www.google.com/recaptcha/about/). Необхідні кроки щодо створення та налаштування сервісів наведено нижче.
+| Language | Folder | Address |
+|---|---|---|
+| Ukrainian (default) | `src/content/docs/` | `/laboratory/concepts/` |
+| English | `src/content/docs/en/` | `/en/laboratory/concepts/` |
 
-* Активація reCAPTCHA:
-   * Перейдіть до [Google reСAPTCHA.](https://www.google.com/recaptcha/admin)
-   * Згенеруйте публічний та секретний ключі
-   * Використайте створені ключі для [config.yml.](https://github.com/cybericebox/docs/blob/main/config.yml)
-     
-* Активація авторизації за допомогою Google:
-  * Перейдіть до [Google Cloud Console.](https://console.cloud.google.com/)
-  * Створіть новий проєкт або виберіть існуючий.
-  * У розділі "APIs & Services" згенеруйте індетифікатор клієнта OAuth2.0 та секретний ключ.
-      * Необхідною умовою для створення індетифікатора є заповнення параметру "Authorized redirect URIs".  
-    Використайте цей шаблон: **https://<кореневий домен платформи>/api/auth/google/callback**
-  * Використайте створені ідентифікатор та секретний ключ для [config.yml.](https://github.com/cybericebox/docs/blob/main/config.yml)
+A page needs `title` and `description` in its frontmatter. To show it in the navigation, add it to `sidebar` in
+`astro.config.mjs` (a slug without the language, a Ukrainian `label`, and `translations: { en: '...' }`). The language
+picker is in the header. Links inside a page start with the language folder of that page (`/en/...` in English pages).
 
-**Лише виконавши умови з попередніх етапів, вам необхідно перейти до кроків безпосереднього [розгортання платформи](https://github.com/cybericebox/docs/blob/main/docs.md).**
+- Do not write text that is not true yet. A page that is not written says so in one sentence.
+- Ukrainian terms: event = «захід», task = «завдання», variant = «варіант», laboratory = «лабораторія», device = «пристрій»,
+  cookies = «файли cookie».
+- Write the brand as `Cyber&nbsp;ICE&nbsp;Box` in Markdown (non-breaking spaces), `\u00A0` in strings of the config or
+  frontmatter. `check:releases` also fails on the name written with ordinary spaces.
+
+## Release pages
+
+One page per release line of a product, in each language:
+
+- English: `src/content/docs/en/releases/<product>/<X.Y>.md`. **This is the source for the release tool.**
+- Ukrainian: `src/content/docs/releases/<product>/<X.Y>.md`, a translation with translated headings.
+
+`<product>` is `laboratory`, `platform` or `brain`. Start from `templates/en/release-page.md` and
+`templates/uk/release-page.md`. `infrastructure/release/release_line.py` (`make release notes|promote|publish-notes`)
+cuts the GitHub release page of every repository from the English page (those pages are English), and `promote`
+refuses while a section is missing or empty. The Ukrainian page stays on the site only.
+
+| Part | Rule |
+|---|---|
+| Frontmatter | `title`, and `slug`: `en/releases/<product>/<X.Y>` (English) or `releases/<product>/<X.Y>` (Ukrainian). Without it the dot of `X.Y` is dropped from the address, and the link the tool writes would break |
+| Introduction | The text before the first `## ` section |
+| Requires | Platform only: `## Requires` (Ukrainian: `## Вимоги`) |
+| One `## ` section per repository | Platform: `Backend`, `ID`, `Platform panel`, `Task catalog`, `Event site`, `Landing` (Ukrainian: `Бекенд`, `ID`, `Панель платформи`, `Каталог завдань`, `Сайт заходу`, `Лендінг`). Laboratory: `Laboratory` (`Лабораторія`). Brain: `API`, `Brain`. The English names are exact: the tool matches them |
+| Unchanged repository | The body is exactly `No changes in this repository.` (Ukrainian: `Без змін у цьому репозиторії.`) |
+| Other `## ` sections | `## Upgrade` (`## Оновлення`) and the like belong to no repository and stay on the site only |
+
+`npm run check:releases` checks the English pages against the sections the tool needs, checks the Ukrainian pages
+against the translated headings, requires every page in both languages, the same sections in the same order, and the
+same repositories marked unchanged.
+
+A patch release (`X.Y.1`) writes its fixes into the section of the repository that was fixed, in the page of the line.
+Use `###` for headings inside a section; a `## ` line inside a code block would still split the page, because the tool
+does not know about code blocks.
+
+The tool reads the pages from the English folder and builds the link to the full notes from `--docs-url`:
+
+```sh
+python3 infrastructure/release/release_line.py notes --product platform --version 2.0 \
+  --docs-dir <path to this repo>/src/content/docs/en --docs-url https://docs.cybericebox.com/en
+```
+
+Its defaults (`../docs-frontend` and `https://docs.cybericebox.com`) point at neither; the English pages live under `/en/`.
+
+## License
+
+Apache License, Version 2.0. See [LICENSE](LICENSE).
