@@ -1,6 +1,6 @@
 ---
 title: Platform X.Y
-slug: releases/platform/X.Y
+slug: en/releases/platform/X.Y
 description: One sentence about the line, shown in search and previews.
 ---
 
