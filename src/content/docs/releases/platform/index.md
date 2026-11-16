@@ -1,6 +1,6 @@
 ---
-title: Platform releases
-description: Release notes of the platform, one page per release line.
+title: Випуски платформи
+description: Примітки до випусків платформи, одна сторінка на лінію випусків.
 ---
 
-Release notes of the platform are collected here, one page per release line (`X.Y`). No release page has been published yet.
+Примітки до випусків платформи збираються тут, по одній сторінці на лінію випусків (`X.Y`). Жодної сторінки випуску ще не опубліковано.

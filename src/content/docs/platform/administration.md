@@ -1,6 +1,6 @@
 ---
-title: Administration
-description: This page is not written yet.
+title: Адміністрування
+description: Цю сторінку ще не написано.
 ---
 
-This page is not written yet.
+Цю сторінку ще не написано.

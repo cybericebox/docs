@@ -1,6 +1,6 @@
 ---
-title: Laboratory releases
-description: Release notes of the Laboratory, one page per release line.
+title: Випуски лабораторії
+description: Примітки до випусків лабораторії, одна сторінка на лінію випусків.
 ---
 
-Release notes of the Laboratory are collected here, one page per release line (`X.Y`). No release page has been published yet.
+Примітки до випусків лабораторії збираються тут, по одній сторінці на лінію випусків (`X.Y`). Жодної сторінки випуску ще не опубліковано.

@@ -9,41 +9,47 @@ export default defineConfig({
   site: 'https://docs.cybericebox.com',
   integrations: [
     starlight({
-      title: `${BRAND} docs`,
+      title: { uk: `Документація ${BRAND}`, en: `${BRAND} docs` },
       description: `Documentation of the ${BRAND} platform and the Laboratory.`,
       logo: { src: './src/assets/crest.png', alt: BRAND },
       favicon: '/favicon.png',
-      // English only for now. To add Ukrainian, add `uk: { label: 'Українська', lang: 'uk' }` here and put the
-      // translated pages under src/content/docs/uk/ (see README).
+      // Ukrainian is the main language (root, no prefix); English lives under /en/. The English release pages are the
+      // source of the release tool (see README).
       defaultLocale: 'root',
-      locales: { root: { label: 'English', lang: 'en' } },
+      locales: {
+        root: { label: 'Українська', lang: 'uk' },
+        en: { label: 'English', lang: 'en' },
+      },
       plugins: [starlightLinksValidator()],
       sidebar: [
         {
-          label: 'Laboratory',
+          label: 'Лабораторія',
+          translations: { en: 'Laboratory' },
           items: [
-            { label: 'Overview', slug: 'laboratory' },
-            { label: 'Concepts', slug: 'laboratory/concepts' },
-            { label: 'Install', slug: 'laboratory/install' },
-            { label: 'Operate', slug: 'laboratory/operate' },
+            { label: 'Огляд', translations: { en: 'Overview' }, slug: 'laboratory' },
+            { label: 'Концепції', translations: { en: 'Concepts' }, slug: 'laboratory/concepts' },
+            { label: 'Встановлення', translations: { en: 'Install' }, slug: 'laboratory/install' },
+            { label: 'Експлуатація', translations: { en: 'Operate' }, slug: 'laboratory/operate' },
             { label: 'API', slug: 'laboratory/api' },
           ],
         },
         {
-          label: 'Platform',
+          label: 'Платформа',
+          translations: { en: 'Platform' },
           items: [
-            { label: 'Overview', slug: 'platform' },
-            { label: 'Install', slug: 'platform/install' },
-            { label: 'Events', slug: 'platform/events' },
-            { label: 'Tasks', slug: 'platform/tasks' },
-            { label: 'Administration', slug: 'platform/administration' },
+            { label: 'Огляд', translations: { en: 'Overview' }, slug: 'platform' },
+            { label: 'Встановлення', translations: { en: 'Install' }, slug: 'platform/install' },
+            { label: 'Заходи', translations: { en: 'Events' }, slug: 'platform/events' },
+            { label: 'Завдання', translations: { en: 'Tasks' }, slug: 'platform/tasks' },
+            { label: 'Адміністрування', translations: { en: 'Administration' }, slug: 'platform/administration' },
           ],
         },
         {
-          label: 'Releases',
+          label: 'Випуски',
+          translations: { en: 'Releases' },
           items: [
-            { label: 'Laboratory', collapsed: true, items: [{ autogenerate: { directory: 'releases/laboratory' } }] },
-            { label: 'Platform', collapsed: true, items: [{ autogenerate: { directory: 'releases/platform' } }] },
+            { label: 'Лабораторія', translations: { en: 'Laboratory' }, collapsed: true, items: [{ autogenerate: { directory: 'releases/laboratory' } }] },
+            { label: 'Платформа', translations: { en: 'Platform' }, collapsed: true, items: [{ autogenerate: { directory: 'releases/platform' } }] },
           ],
         },
       ],

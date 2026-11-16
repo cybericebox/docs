@@ -1,6 +1,6 @@
 ---
 title: API
-description: This page is not written yet.
+description: Цю сторінку ще не написано.
 ---
 
-This page is not written yet.
+Цю сторінку ще не написано.

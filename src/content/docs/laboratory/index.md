@@ -1,50 +1,51 @@
 ---
-title: Laboratory overview
-description: What Laboratory is, what it does and how it is built.
+title: Огляд лабораторії
+description: Що таке лабораторія, що вона робить і як побудована.
 ---
 
-Laboratory runs isolated training networks on a Kubernetes cluster. It builds the machines and networks of a task,
-keeps every team apart from every other team, and gives people controlled ways in: a WireGuard VPN, a browser, and a
-filtered path to the internet.
+Лабораторія запускає ізольовані навчальні мережі в кластері Kubernetes. Вона будує пристрої та мережі завдання,
+тримає кожну команду окремо від усіх інших і дає людям контрольовані шляхи всередину: VPN WireGuard, браузер і
+відфільтрований вихід в інтернет.
 
-It is the lab layer of the Cyber&nbsp;ICE&nbsp;Box platform, and it also works on its own. Laboratory is a
-**constructor**: it offers generic parts (devices, switches, gateways, cables, access rules, checks). It knows nothing
-about events, courses, rankings or scores. A platform backend drives it through one gRPC API and keeps all of that
-for itself.
+Це лабораторний рівень платформи Cyber&nbsp;ICE&nbsp;Box, і вона також працює окремо. Лабораторія є
+**конструктором**: вона пропонує загальні складники (пристрої, комутатори, шлюзи, кабелі, правила доступу,
+перевірки). Про заходи, курси, рейтинги чи бали вона нічого не знає. Бекенд платформи керує нею через один gRPC API
+і сам зберігає все це в собі.
 
-## What it does
+## Що вона робить
 
-| Area | What you get |
+| Напрям | Що ви отримуєте |
 |---|---|
-| Topology | Labs made of containers or micro-VMs, switches, hubs and cables, with static or DHCP addressing |
-| Isolation | One namespace, one address space and one set of keys per team; layer-2 segments that reach nobody by default |
-| VPN access | A WireGuard server per team behind one shared UDP port; access rules per client and per network segment |
-| Browser access | A device's web page or its console in a browser, through an HTTPS proxy, without entering the lab network |
-| Internet | Outbound web access through a filtering gateway; nothing inbound, nothing but web |
-| Checks | Automatic checks of what is inside a device: files, processes, ports, commands |
-| Capacity | Scheduling through a window, quotas per tenant, reservations ahead of time, maintenance windows |
-| Multi-tenancy | Several backends on one cluster; none can see another's objects |
+| Топологія | Лабораторії з контейнерів або мікро-ВМ, комутаторів, хабів і кабелів, зі статичними адресами або DHCP |
+| Ізоляція | Один простір імен, один адресний простір і один набір ключів на команду; сегменти другого рівня за замовчуванням нікого не досягають |
+| Доступ через VPN | Сервер WireGuard на команду за одним спільним UDP-портом; правила доступу для кожного клієнта і для кожного мережевого сегмента |
+| Доступ через браузер | Вебсторінка пристрою або його консоль у браузері, через HTTPS-проксі, без входу в мережу лабораторії |
+| Інтернет | Вихідний вебдоступ через фільтрувальний шлюз; нічого вхідного, нічого, крім вебу |
+| Перевірки | Автоматичні перевірки того, що всередині пристрою: файли, процеси, порти, команди |
+| Місткість | Запуск через вікно, квоти на орендаря, резервування наперед, вікна обслуговування |
+| Багатоорендність | Кілька бекендів в одному кластері; жоден не бачить об'єктів іншого |
 
-## How it is built
+## Як вона побудована
 
-A platform backend talks to the **management agent** over gRPC with mutual TLS. The agent creates Kubernetes custom
-resources in the API group `laboratory.cybericebox.com`; the **operator** turns them into namespaces, pods, services
-and network policies. A **node-agent** on every lab node plugs each device into its Open vSwitch segments, across nodes
-when needed. Each team gets its own VPN server pod and, when it needs one, an internet gateway pod. One **proxy**
-serves device web pages and consoles over HTTPS and shares a single UDP port between the VPN servers of all teams.
+Бекенд платформи звертається до **агента керування** через gRPC із взаємним TLS. Агент створює власні ресурси
+Kubernetes у групі API `laboratory.cybericebox.com`; **оператор** перетворює їх на простори імен, поди, сервіси та
+мережеві політики. **Вузловий агент** на кожному вузлі лабораторії підключає кожен пристрій до його сегментів
+Open vSwitch, за потреби між вузлами. Кожна команда має власний под сервера VPN і, коли потрібно, под
+інтернет-шлюзу. Один **проксі** віддає вебсторінки та консолі пристроїв по HTTPS і ділить один UDP-порт між
+серверами VPN усіх команд.
 
-## Ways in
+## Шляхи всередину
 
-There are three, and everything else is denied: a **VPN** (a cable into one network segment), a **browser** (you stand at
-one device, without entering its network) and a filtered **internet** path for outbound web traffic.
+Їх три, усе інше заборонено: **VPN** (кабель в один мережевий сегмент), **браузер** (ви стоїте біля одного пристрою,
+не входячи в його мережу) і відфільтрований шлях в **інтернет** для вихідного вебтрафіку.
 
-## What it does not do
+## Чого вона не робить
 
-- It does not keep scores, statistics or history; the backend aggregates the raw facts Laboratory hands over.
-- It has no built-in DNS for lab hosts and no remote desktop (VNC, RDP) yet.
-- It does not phone home: no telemetry, no update check.
+- Не веде бали, статистику чи історію; бекенд сам агрегує необроблені факти, які передає лабораторія.
+- Не має вбудованого DNS для вузлів лабораторії і поки не підтримує віддалений робочий стіл (VNC, RDP).
+- Не «дзвонить додому»: ні телеметрії, ні перевірки оновлень.
 
-## Where to go next
+## Куди далі
 
-- [Concepts](/laboratory/concepts/), [Install](/laboratory/install/), [Operate](/laboratory/operate/) and [API](/laboratory/api/) are not written yet.
-- [Laboratory release notes](/releases/laboratory/) are collected per release line.
+- [Концепції](/laboratory/concepts/), [Встановлення](/laboratory/install/), [Експлуатацію](/laboratory/operate/) та [API](/laboratory/api/) ще не написано.
+- [Примітки до випусків лабораторії](/releases/laboratory/) збирають за лініями випусків.

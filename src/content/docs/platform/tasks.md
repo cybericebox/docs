@@ -1,6 +1,6 @@
 ---
-title: Tasks
-description: This page is not written yet.
+title: Завдання
+description: Цю сторінку ще не написано.
 ---
 
-This page is not written yet.
+Цю сторінку ще не написано.

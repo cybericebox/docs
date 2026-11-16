@@ -1,8 +1,8 @@
 ---
-title: Brain releases
-description: Release notes of Brain, one page per release line.
+title: Випуски Brain
+description: Примітки до випусків Brain, одна сторінка на лінію випусків.
 sidebar:
   hidden: true
 ---
 
-Release notes of Brain are collected here, one page per release line (`X.Y`). This product is not in the navigation yet.
+Примітки до випусків Brain збираються тут, по одній сторінці на лінію випусків (`X.Y`). Цього продукту ще немає в навігації.
