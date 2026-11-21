@@ -12,7 +12,7 @@ gh = "2.104.0"     # dev-push
 [tasks.cache-guard]
 hide = true
 description = "Local caches stay under a size limit (the workspace script of infrastructure; does nothing in CI or without it)"
-run = 'g="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/../infrastructure/scripts/cache-guard.sh"; if [ -z "${CI:-}" ] && [ -x "$g" ]; then "$g"; fi'
+run = 'd="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"; for up in .. ../..; do g="$d/$up/infrastructure/scripts/cache-guard.sh"; [ -x "$g" ] && break; done; if [ -z "${CI:-}" ] && [ -x "$g" ]; then "$g"; fi'
 
 [tasks.install]
 description = "Install the dependencies exactly as package-lock.json pins them"
