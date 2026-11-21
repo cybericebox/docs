@@ -6,7 +6,7 @@ independent products have their own sections: the **Laboratory** and the **platf
 
 ## Run locally
 
-Node 26 (see `.nvmrc`).
+Tools are pinned in `mise.toml`: `mise install` puts Node.js in place, `mise tasks` lists the commands.
 
 ```sh
 npm ci
@@ -53,7 +53,7 @@ One page per release line of a product, in each language:
 - Ukrainian: `src/content/docs/releases/<product>/<X.Y>.md`, a translation with translated headings.
 
 `<product>` is `laboratory`, `platform` or `brain`. Start from `templates/en/release-page.md` and
-`templates/uk/release-page.md`. `infrastructure/release/release_line.py` (`make release notes|promote|publish-notes`)
+`templates/uk/release-page.md`. `infrastructure/release/release_line.py` (`mise run release notes|promote|publish-notes`)
 cuts the GitHub release page of every repository from the English page (those pages are English), and `promote`
 refuses while a section is missing or empty. The Ukrainian page stays on the site only.
 

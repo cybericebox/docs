@@ -1,0 +1,35 @@
+# mise: the pinned tools of this repository and its commands. One entry point for developers, agents and CI.
+#   mise install            install exactly these tool versions (once, and after this file changes)
+#   mise tasks              list the commands
+#   mise run <task> ...     run one; extra arguments go to the command
+# The commands themselves are the npm scripts of package.json; the tasks only give them one entry point.
+
+[tools]
+node = "26.10.0"
+gh = "2.104.0"     # dev-push
+
+[tasks.cache-guard]
+hide = true
+description = "Local caches stay under a size limit (the workspace script of infrastructure; does nothing in CI or without it)"
+run = 'g="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/../infrastructure/scripts/cache-guard.sh"; if [ -z "${CI:-}" ] && [ -x "$g" ]; then "$g"; fi'
+
+[tasks.install]
+description = "Install the dependencies exactly as package-lock.json pins them"
+depends = ["cache-guard"]
+run = "npm ci"
+
+[tasks.dev]
+description = "npm run dev: astro dev"
+run = "npm run dev"
+
+[tasks.build]
+description = "npm run build: astro build"
+run = "npm run build"
+
+[tasks."check:releases"]
+description = "npm run check:releases: node scripts/check-releases.mjs"
+run = "npm run check:releases"
+
+[tasks.check]
+description = "Everything the CI check runs: build, check:releases"
+run = [{ task = "build" }, { task = "check:releases" }]
