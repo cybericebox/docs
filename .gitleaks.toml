@@ -1,0 +1,3 @@
+# gitleaks: the secret scan of `mise run lint:leaks` over the whole history. The default rules, minus what is not a secret here.
+[extend]
+useDefault = true

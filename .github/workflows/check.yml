@@ -22,6 +22,8 @@ jobs:
           key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: mise run install
+      - name: Lint (gitleaks, actionlint)
+        run: mise run lint
       - name: Build
         run: mise run build
       - name: Check the release pages
