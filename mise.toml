@@ -7,6 +7,7 @@
 [tools]
 node = "26.10.0"
 gh = "2.104.0"     # dev-push
+"github:mokevnin/heavy" = "0.1.2"   # a machine-wide semaphore: heavy commands of every checkout and agent take turns (heavy --status)
 
 [tasks.cache-guard]
 hide = true
@@ -24,7 +25,7 @@ run = "npm run dev"
 
 [tasks.build]
 description = "npm run build: astro build"
-run = "npm run build"
+run = "heavy -- npm run build"
 
 [tasks."check:releases"]
 description = "npm run check:releases: node scripts/check-releases.mjs"
