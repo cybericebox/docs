@@ -1,0 +1,40 @@
+# Version updates: weekly, Monday 07:00 Kyiv time. Minor and patch updates are grouped (one pull request per
+# ecosystem and kind); majors come as separate pull requests. Pull requests go to develop.
+# Dependabot reads this file from the default branch (main), so changes here take effect with the next release.
+# Security updates are not configured here: they always target the default branch.
+# Commit messages stay at the Dependabot default ("Bump x from a to b"): no prefix.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Kyiv
+    open-pull-requests-limit: 10
+    groups:
+      npm-patch:
+        patterns: ["*"]
+        update-types: [patch]
+      npm-minor:
+        patterns: ["*"]
+        update-types: [minor]
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Europe/Kyiv
+    open-pull-requests-limit: 5
+    groups:
+      github-actions-patch:
+        patterns: ["*"]
+        update-types: [patch]
+      github-actions-minor:
+        patterns: ["*"]
+        update-types: [minor]
