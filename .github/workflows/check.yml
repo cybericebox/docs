@@ -9,6 +9,8 @@ permissions:
 
 jobs:
   check:
+    # The required status check of develop and main.
+    name: Check passed
     runs-on: ubuntu-latest
     steps:
       - name: Check repository
