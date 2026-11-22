@@ -1,0 +1,47 @@
+# mise: the pinned tools of this repository and its commands. One entry point for developers, agents and CI.
+#   mise install            install exactly these tool versions (once, and after this file changes)
+#   mise tasks              list the commands
+#   mise run <task> ...     run one; extra arguments go to the command
+# The commands themselves are the npm scripts of package.json; the tasks only give them one entry point.
+
+[tools]
+gitleaks = "8.30.1"   # lint:leaks: the secret scan of the whole history (.gitleaks.toml)
+actionlint = "1.7.12"   # lint:leaks: the GitHub workflows
+shellcheck = "0.11.0"   # actionlint checks the run: scripts with it
+node = "26.10.0"
+gh = "2.104.0"     # dev-push
+"github:mokevnin/heavy" = "0.1.2"   # a machine-wide semaphore: heavy commands of every checkout and agent take turns (heavy --status)
+
+[tasks.cache-guard]
+hide = true
+description = "Local caches stay under a size limit (the workspace script of infrastructure; does nothing in CI or without it)"
+run = 'd="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"; for up in .. ../..; do g="$d/$up/infrastructure/scripts/cache-guard.sh"; [ -x "$g" ] && break; done; if [ -z "${CI:-}" ] && [ -x "$g" ]; then "$g"; fi'
+
+[tasks.install]
+description = "Install the dependencies exactly as package-lock.json pins them"
+depends = ["cache-guard"]
+run = "npm ci"
+
+[tasks.dev]
+description = "npm run dev: astro dev"
+run = "npm run dev"
+
+[tasks.build]
+description = "npm run build: astro build"
+run = "heavy -- npm run build"
+
+[tasks."check:releases"]
+description = "npm run check:releases: node scripts/check-releases.mjs"
+run = "npm run check:releases"
+
+[tasks."lint:leaks"]
+description = "gitleaks over the whole history (.gitleaks.toml) and actionlint over the workflows"
+run = ["gitleaks git --redact --no-banner --log-level warn", "actionlint"]
+
+[tasks.lint]
+description = "The lints of this repository"
+run = [{ task = "lint:leaks" }]
+
+[tasks.check]
+description = "Everything the CI check runs: build, check:releases"
+run = [{ task = "lint" }, { task = "build" }, { task = "check:releases" }]

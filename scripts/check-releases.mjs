@@ -61,7 +61,7 @@ function checkPage(file, lang, product, slug) {
   if (!fm) return ['no frontmatter (title is required)'];
   if (!/^title:\s*\S/m.test(fm.front)) errors.push('frontmatter has no title');
   // The slug keeps the dot of X.Y in the address (the default slug drops it); the tool links to /releases/<product>/<X.Y>.
-  if (slug && !new RegExp(`^slug:\\s*${slug.replace(/\./g, '\\.')}\\s*$`, 'm').test(fm.front)) errors.push(`frontmatter needs slug: ${slug}`);
+  if (slug && !new RegExp(`^slug:\\s*${slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'm').test(fm.front)) errors.push(`frontmatter needs slug: ${slug}`);
   const parts = splitPage(fm.body);
   const map = new Map();
   for (const [name, body] of parts) {
